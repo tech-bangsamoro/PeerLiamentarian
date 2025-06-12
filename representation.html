@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="POMS Representation - Constituent engagement, service delivery, and stakeholder management for parliamentary representation.">
+    <title>Representation - POMS</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏛️%3C/text%3E%3C/svg%3E">
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Parliamentary Blues - Primary Brand Colors
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        // Bangsamoro Greens - Cultural Heritage Colors
+                        bangsamoro: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        // Engagement Colors - Action and Interaction
+                        'engagement-orange': {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        'engagement-yellow': {
+                            50: '#fefce8',
+                            100: '#fef9c3',
+                            200: '#fef08a',
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                            800: '#854d0e',
+                            900: '#713f12',
+                        },
+                        // Neutral colors
+                        neutral: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        }
+                    },
+                    fontFamily: {
+                        'primary': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js for interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom styles -->
+    <style>
+        .module-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .tab-transition {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-neutral-50 font-primary text-neutral-800 min-h-screen" x-data="representationModule()">
+    
+    <!-- POMS Shared Navbar Component - Modern Animated Version -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200/50 sticky top-0 z-50 transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo and Brand - Homepage Link -->
+          <a href="index.html" class="flex items-center group cursor-pointer" aria-label="POMS Homepage">
+            <div class="flex-shrink-0 flex items-center">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-blue-500 to-green-600 rounded-xl flex items-center justify-center mr-3 transform transition-all duration-300 shadow-lg hover:shadow-xl">
+                <i class="fas fa-landmark text-white text-lg"></i>
+              </div>
+              <div class="flex flex-col">
+                <h1 class="text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">POMS</h1>
+                <span class="text-xs text-gray-500 transition-colors duration-300 group-hover:text-blue-500 hidden sm:block">Parliamentary Office Management</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Navigation Links -->
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-2">
+              <a href="office.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-briefcase mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Office Management
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="legislative.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-gavel mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Legislation
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="oversight.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-search-plus mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Oversight
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="representation.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-handshake mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Representation
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Menu -->
+          <div class="flex items-center">
+            <div class="relative" x-data="{ open: false }">
+              <button @click="open = !open" class="group flex items-center text-sm rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 hover:shadow-lg">
+                <span class="sr-only">Open user menu</span>
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 via-blue-400 to-green-500 rounded-full flex items-center justify-center transition-all duration-300 group-hover:shadow-lg">
+                  <span class="text-white font-medium text-sm">MP</span>
+                </div>
+                <span class="ml-3 text-sm font-medium transition-colors duration-300 hidden sm:block">Member of Parliament</span>
+                <svg class="ml-2 h-4 w-4 transition-transform duration-300" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              
+              <div x-show="open" @click.away="open = false" 
+                   x-transition:enter="transition ease-out duration-200" 
+                   x-transition:enter-start="transform opacity-0 scale-95 -translate-y-2" 
+                   x-transition:enter-end="transform opacity-100 scale-100 translate-y-0" 
+                   x-transition:leave="transition ease-in duration-150" 
+                   x-transition:leave-start="transform opacity-100 scale-100 translate-y-0" 
+                   x-transition:leave-end="transform opacity-0 scale-95 -translate-y-2" 
+                   class="origin-top-right absolute right-0 mt-3 w-56 rounded-xl shadow-xl bg-white/95 backdrop-blur-md ring-1 ring-black/10 focus:outline-none z-50 border border-gray-200/50">
+                <div class="py-2">
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-user mr-3 text-lg"></i>
+                    <span class="font-medium">Profile</span>
+                  </a>
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-cog mr-3 text-lg"></i>
+                    <span class="font-medium">Settings</span>
+                  </a>
+                  <div class="border-t border-gray-200/50 my-2"></div>
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50/80 hover:text-red-700 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-sign-out-alt mr-3 text-lg"></i>
+                    <span class="font-medium">Sign Out</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="md:hidden" x-data="{ mobileOpen: false }">
+          <button @click="mobileOpen = !mobileOpen" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          
+          <div x-show="mobileOpen" x-transition class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+            <a href="office.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-briefcase mr-2"></i>Office Management</a>
+            <a href="legislative.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-gavel mr-2"></i>Legislation</a>
+            <a href="oversight.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-search-plus mr-2"></i>Oversight</a>
+            <a href="representation.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-handshake mr-2"></i>Representation</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Module Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-4 mb-4">
+                <i class="fas fa-handshake text-4xl text-blue-600"></i>
+                <div>
+                    <h2 class="text-3xl font-bold text-neutral-900">Representation</h2>
+                    <p class="text-lg text-neutral-600">Constituent engagement, service delivery, and stakeholder management</p>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl shadow-md p-4 border border-primary-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Organizations</p>
+                            <p class="text-2xl font-bold text-primary-900">46</p>
+                        </div>
+                        <i class="fas fa-map text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-primary-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Active Requests</p>
+                            <p class="text-2xl font-bold text-primary-900">35</p>
+                        </div>
+                        <i class="fas fa-clipboard-list text-2xl text-green-600"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-primary-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Beneficiaries</p>
+                            <p class="text-2xl font-bold text-primary-900">4.6K</p>
+                        </div>
+                        <i class="fas fa-users text-2xl text-purple-600"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-primary-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Satisfaction Rate</p>
+                            <p class="text-2xl font-bold text-primary-900">89%</p>
+                        </div>
+                        <i class="fas fa-smile text-2xl text-engagement-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub-module Tabs -->
+        <div class="mb-8">
+            <nav class="flex space-x-1 bg-white rounded-lg p-1 shadow-sm border border-neutral-200">
+                <template x-for="(tab, key) in tabs" :key="key">
+                    <button
+                        @click="activeTab = key"
+                        :class="[
+                            'flex-1 py-3 px-4 text-sm font-medium rounded-md transition-all duration-200',
+                            activeTab === key 
+                                ? 'bg-primary-100 text-primary-700 shadow-sm' 
+                                : 'text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50'
+                        ]"
+                    >
+                        <span x-html="tab.icon" class="text-lg mr-2"></span>
+                        <span x-text="tab.name"></span>
+                    </button>
+                </template>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-transition">
+            
+            <!-- Interactive Map Tab -->
+            <div x-show="activeTab === 'map'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Interactive Map Overview -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200 mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-neutral-900">BARMM Constituency Map</h3>
+                                <button class="bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors">
+                                    View Full Map
+                                </button>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 h-80 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <span class="text-blue-600 text-2xl">🗺️</span>
+                                    </div>
+                                    <p class="font-medium text-neutral-800">Interactive Map Loading...</p>
+                                    <p class="text-sm text-neutral-600">Constituency boundaries and demographic data</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Statistics -->
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                            <h3 class="text-lg font-semibold text-neutral-900 mb-4">Regional Overview</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-neutral-600">Total Population</span>
+                                        <span class="text-sm font-medium text-bangsamoro-600">55K</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-200 rounded-full h-2">
+                                        <div class="bg-bangsamoro-500 h-2 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-neutral-600">Registered Voters</span>
+                                        <span class="text-sm font-medium text-primary-600">38K</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-200 rounded-full h-2">
+                                        <div class="bg-primary-500 h-2 rounded-full" style="width: 74%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demographics Tab -->
+            <div x-show="activeTab === 'demographics'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Age Distribution</h3>
+                        <div class="h-64 bg-neutral-50 rounded-lg flex items-center justify-center">
+                            <canvas id="ageChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Educational Attainment</h3>
+                        <div class="h-64 bg-neutral-50 rounded-lg flex items-center justify-center">
+                            <canvas id="educationChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h4 class="text-sm font-semibold text-neutral-800 mb-4">Ethnic Composition</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Maguindanaon</span>
+                                <span class="font-bold text-blue-600">26.4%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Tausug</span>
+                                <span class="font-bold text-purple-600">23.3%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Maranao</span>
+                                <span class="font-bold text-green-600">22.7%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Others</span>
+                                <span class="font-bold text-engagement-yellow-600">27.6%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h4 class="text-sm font-semibold text-neutral-800 mb-4">Employment Status</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Employed</span>
+                                <span class="font-bold text-green-600">58%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Unemployed</span>
+                                <span class="font-bold text-red-600">12%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Students</span>
+                                <span class="font-bold text-blue-600">22%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Not in Labor Force</span>
+                                <span class="font-bold text-neutral-600">8%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h4 class="text-sm font-semibold text-neutral-800 mb-4">Poverty Indicators</h4>
+                        <div class="space-y-3">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-engagement-yellow-600 mb-1">23.5%</div>
+                                <div class="text-sm text-neutral-600">Poverty Incidence</div>
+                            </div>
+                            <div class="w-full bg-neutral-200 rounded-full h-3">
+                                <div class="bg-engagement-yellow-600 h-3 rounded-full" style="width: 23.5%"></div>
+                            </div>
+                            <div class="text-xs text-neutral-500 text-center">Target: <20% by 2028</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Organizations Tab -->
+            <div x-show="activeTab === 'organizations'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Active Organizations</h3>
+                        <div class="space-y-4">
+                            <div class="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-sm font-medium text-neutral-900">Government Agencies</h4>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">8</span>
+                                </div>
+                                <p class="text-xs text-neutral-600 mb-2">All levels of government</p>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 18%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-sm font-medium text-neutral-900">Civil Society</h4>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">23</span>
+                                </div>
+                                <p class="text-xs text-neutral-600 mb-2">NGOs & Community Organizations</p>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-sm font-medium text-neutral-900">Private Sector</h4>
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">15</span>
+                                </div>
+                                <p class="text-xs text-neutral-600 mb-2">Businesses & Cooperatives</p>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 32%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Key Stakeholders</h3>
+                        <div class="space-y-3 max-h-80 overflow-y-auto">
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-blue-400">
+                                <h6 class="font-medium text-blue-800 mb-1">Maguindanao Women's Association</h6>
+                                <p class="text-sm text-neutral-600">Women empowerment & livelihood programs</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">People's Organization</span>
+                                    <span class="text-xs text-neutral-500 ml-2">Active since 2018</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-green-400">
+                                <h6 class="font-medium text-green-800 mb-1">Mindanao Coalition of Development NGOs</h6>
+                                <p class="text-sm text-neutral-600">Peace & development advocacy</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">NGO</span>
+                                    <span class="text-xs text-neutral-500 ml-2">Active since 2015</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-purple-400">
+                                <h6 class="font-medium text-purple-800 mb-1">BARMM Farmers Cooperative</h6>
+                                <p class="text-sm text-neutral-600">Agricultural development & support</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Cooperative</span>
+                                    <span class="text-xs text-neutral-500 ml-2">Active since 2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beneficiaries Tab -->
+            <div x-show="activeTab === 'beneficiaries'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Beneficiary Programs</h3>
+                        <div class="h-64 bg-neutral-50 rounded-lg flex items-center justify-center">
+                            <canvas id="beneficiaryChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Program Statistics</h3>
+                        <div class="space-y-4">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-primary-900">4,567</p>
+                                <p class="text-sm text-neutral-600">Total Beneficiaries</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <p class="text-xl font-bold text-bangsamoro-600">127</p>
+                                    <p class="text-xs text-neutral-600">New This Month</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-xl font-bold text-primary-600">8.3%</p>
+                                    <p class="text-xs text-neutral-600">Coverage Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">🎓</span>
+                            Education Programs
+                        </h5>
+                        <div class="text-3xl font-bold">1,821</div>
+                        <div class="text-blue-100 text-sm">Students & scholars</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-400 to-green-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">🏥</span>
+                            Healthcare Programs
+                        </h5>
+                        <div class="text-3xl font-bold">1,523</div>
+                        <div class="text-green-100 text-sm">Medical assistance</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">🌾</span>
+                            Livelihood Programs
+                        </h5>
+                        <div class="text-3xl font-bold">1,223</div>
+                        <div class="text-purple-100 text-sm">Economic support</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request Tracker Tab -->
+            <div x-show="activeTab === 'requests'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Recent Requests</h3>
+                        <div class="space-y-4 max-h-80 overflow-y-auto">
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-green-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-green-800">Medical Assistance</h6>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Approved</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Request for dialysis treatment support</p>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="text-xs text-neutral-500">REQ-2025-001234</span>
+                                    <span class="text-xs text-neutral-500">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-engagement-yellow-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-engagement-yellow-800">Infrastructure Concern</h6>
+                                    <span class="text-xs bg-engagement-yellow-100 text-engagement-yellow-800 px-2 py-1 rounded-full">In Progress</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Road repair in Barangay Poblacion</p>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="text-xs text-neutral-500">REQ-2025-001233</span>
+                                    <span class="text-xs text-neutral-500">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-blue-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-blue-800">Education Support</h6>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Under Review</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Scholarship application for college</p>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="text-xs text-neutral-500">REQ-2025-001232</span>
+                                    <span class="text-xs text-neutral-500">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Response Analytics</h3>
+                        <div class="space-y-4">
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700">Average Response Time</span>
+                                    <span class="text-2xl font-bold text-blue-600">2.3 days</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 76%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">Target: <3 days</div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700">Resolution Rate</span>
+                                    <span class="text-2xl font-bold text-green-600">87%</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 87%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">This quarter</div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700">Satisfaction Score</span>
+                                    <span class="text-2xl font-bold text-purple-600">8.4/10</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-purple-600 h-2 rounded-full" style="width: 84%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">Based on feedback</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Affairs Tab -->
+            <div x-show="activeTab === 'media'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Recent Media Coverage</h3>
+                        <div class="space-y-3 max-h-80 overflow-y-auto">
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-blue-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-blue-800">GMA News Interview</h6>
+                                    <span class="text-xs text-neutral-500">Today</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Discussion on peace & development programs</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">TV</span>
+                                    <span class="text-xs text-neutral-500 ml-2">Live broadcast</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-green-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-green-800">Mindanao Times Feature</h6>
+                                    <span class="text-xs text-neutral-500">Yesterday</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Educational reforms in BARMM highlighted</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Print</span>
+                                    <span class="text-xs text-neutral-500 ml-2">Front page</span>
+                                </div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4 border-l-4 border-purple-400">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h6 class="font-medium text-purple-800">Facebook Live Session</h6>
+                                    <span class="text-xs text-neutral-500">2 days ago</span>
+                                </div>
+                                <p class="text-sm text-neutral-600">Q&A on healthcare initiatives</p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Social</span>
+                                    <span class="text-xs text-neutral-500 ml-2">45K views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200">
+                        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Communication Channels</h3>
+                        <div class="space-y-4">
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700 flex items-center">
+                                        <span class="mr-2">📱</span>
+                                        Facebook
+                                    </span>
+                                    <span class="text-lg font-bold text-blue-600">22K</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 92%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">Followers</div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700 flex items-center">
+                                        <span class="mr-2">📺</span>
+                                        YouTube
+                                    </span>
+                                    <span class="text-lg font-bold text-red-600">9.5K</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-red-600 h-2 rounded-full" style="width: 68%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">Subscribers</div>
+                            </div>
+                            <div class="bg-neutral-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-medium text-neutral-700 flex items-center">
+                                        <span class="mr-2">📧</span>
+                                        Newsletter
+                                    </span>
+                                    <span class="text-lg font-bold text-green-600">2.3K</span>
+                                </div>
+                                <div class="w-full bg-neutral-200 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                                <div class="text-xs text-neutral-500 mt-1">Subscribers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">📰</span>
+                            Press Releases
+                        </h5>
+                        <div class="text-3xl font-bold">8</div>
+                        <div class="text-blue-100 text-sm">This quarter</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-400 to-green-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">📺</span>
+                            TV Interviews
+                        </h5>
+                        <div class="text-3xl font-bold">3</div>
+                        <div class="text-green-100 text-sm">This month</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl p-6 text-white">
+                        <h5 class="font-semibold mb-2 flex items-center">
+                            <span class="mr-2">📱</span>
+                            Social Media Reach
+                        </h5>
+                        <div class="text-3xl font-bold">45K</div>
+                        <div class="text-purple-100 text-sm">Monthly impressions</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript for Tab Management -->
+    <script>
+        // Auto-highlight active navigation link based on current page
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href === currentPage) {
+            link.classList.remove('text-gray-600');
+            link.classList.add('text-blue-600', 'bg-blue-50');
+          }
+        });
+
+        function representationModule() {
+            return {
+                activeTab: 'map',
+                tabs: {
+                    map: {
+                        name: 'Interactive Map',
+                        icon: '<i class="fas fa-map"></i>'
+                    },
+                    demographics: {
+                        name: 'Demographics',
+                        icon: '<i class="fas fa-chart-bar"></i>'
+                    },
+                    organizations: {
+                        name: 'Organizations',
+                        icon: '<i class="fas fa-building"></i>'
+                    },
+                    beneficiaries: {
+                        name: 'Beneficiaries',
+                        icon: '<i class="fas fa-users"></i>'
+                    },
+                    requests: {
+                        name: 'Request Tracker',
+                        icon: '<i class="fas fa-clipboard-list"></i>'
+                    },
+                    media: {
+                        name: 'Media Affairs',
+                        icon: '<i class="fas fa-broadcast-tower"></i>'
+                    }
+                }
+            }
+        }
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Age Chart
+            const ageCtx = document.getElementById('ageChart')?.getContext('2d');
+            if (ageCtx) {
+                new Chart(ageCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['0-14', '15-24', '25-34', '35-44', '45-54', '55-64', '65+'],
+                        datasets: [{
+                            label: 'Population (%)',
+                            data: [32, 18, 16, 14, 10, 7, 3],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            // Education Chart
+            const educationCtx = document.getElementById('educationChart')?.getContext('2d');
+            if (educationCtx) {
+                new Chart(educationCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Elementary', 'High School', 'College', 'Vocational', 'Graduate'],
+                        datasets: [{
+                            data: [35, 28, 22, 10, 5],
+                            backgroundColor: ['#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ef4444']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            // Beneficiary Chart
+            const beneficiaryCtx = document.getElementById('beneficiaryChart')?.getContext('2d');
+            if (beneficiaryCtx) {
+                new Chart(beneficiaryCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [
+                            {
+                                label: 'Education',
+                                data: [1650, 1687, 1723, 1756, 1789, 1821],
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                            },
+                            {
+                                label: 'Healthcare',
+                                data: [1420, 1445, 1467, 1489, 1506, 1523],
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                            },
+                            {
+                                label: 'Livelihood',
+                                data: [1150, 1173, 1189, 1204, 1214, 1223],
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

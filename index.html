@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="POMS Homepage - Parliamentary Office Management System for effective parliamentary operations in BARMM.">
+    <title>POMS - Parliamentary Office Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏛️%3C/text%3E%3C/svg%3E">
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Parliamentary Blues - Primary Brand Colors
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        // Bangsamoro Greens - Cultural Heritage Colors
+                        bangsamoro: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        // Engagement Colors - Action and Interaction
+                        'engagement-orange': {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        'engagement-yellow': {
+                            50: '#fefce8',
+                            100: '#fef9c3',
+                            200: '#fef08a',
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                            800: '#854d0e',
+                            900: '#713f12',
+                        },
+                        // Neutral colors
+                        neutral: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        }
+                    },
+                    fontFamily: {
+                        'primary': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Alpine.js for interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Custom styles -->
+    <style>
+        .module-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-neutral-50 font-primary text-neutral-800 min-h-screen">
+    <!-- POMS Shared Navbar Component - Modern Animated Version -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200/50 sticky top-0 z-50 transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo and Brand - Homepage Link -->
+          <a href="index.html" class="flex items-center group cursor-pointer" aria-label="POMS Homepage">
+            <div class="flex-shrink-0 flex items-center">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-blue-500 to-green-600 rounded-xl flex items-center justify-center mr-3 transform transition-all duration-300 shadow-lg hover:shadow-xl">
+                <i class="fas fa-landmark text-white text-lg"></i>
+              </div>
+              <div class="flex flex-col">
+                <h1 class="text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">POMS</h1>
+                <span class="text-xs text-gray-500 transition-colors duration-300 group-hover:text-blue-500 hidden sm:block">Parliamentary Office Management</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Navigation Links -->
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-2">
+              <a href="office.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-briefcase mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Office Management
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="legislative.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-gavel mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Legislation
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="oversight.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-search-plus mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Oversight
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+              <a href="representation.html" 
+                 class="nav-link group relative text-gray-600 hover:text-blue-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center hover:bg-blue-50/50 hover:shadow-md hover:-translate-y-0.5">
+                <i class="fas fa-handshake mr-2 text-lg transition-transform duration-300 group-hover:scale-110"></i>
+                <span class="relative">Representation
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Menu -->
+          <div class="flex items-center">
+            <div class="relative" x-data="{ open: false }">
+              <button @click="open = !open" class="group flex items-center text-sm rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 hover:shadow-lg">
+                <span class="sr-only">Open user menu</span>
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 via-blue-400 to-green-500 rounded-full flex items-center justify-center transition-all duration-300 group-hover:shadow-lg">
+                  <span class="text-white font-medium text-sm">MP</span>
+                </div>
+                <span class="ml-3 text-sm font-medium transition-colors duration-300 hidden sm:block">Member of Parliament</span>
+                <svg class="ml-2 h-4 w-4 transition-transform duration-300" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              
+              <div x-show="open" @click.away="open = false" 
+                   x-transition:enter="transition ease-out duration-200" 
+                   x-transition:enter-start="transform opacity-0 scale-95 -translate-y-2" 
+                   x-transition:enter-end="transform opacity-100 scale-100 translate-y-0" 
+                   x-transition:leave="transition ease-in duration-150" 
+                   x-transition:leave-start="transform opacity-100 scale-100 translate-y-0" 
+                   x-transition:leave-end="transform opacity-0 scale-95 -translate-y-2" 
+                   class="origin-top-right absolute right-0 mt-3 w-56 rounded-xl shadow-xl bg-white/95 backdrop-blur-md ring-1 ring-black/10 focus:outline-none z-50 border border-gray-200/50">
+                <div class="py-2">
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-user mr-3 text-lg"></i>
+                    <span class="font-medium">Profile</span>
+                  </a>
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-cog mr-3 text-lg"></i>
+                    <span class="font-medium">Settings</span>
+                  </a>
+                  <div class="border-t border-gray-200/50 my-2"></div>
+                  <a href="#" class="group flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50/80 hover:text-red-700 transition-all duration-200 rounded-lg mx-2">
+                    <i class="fas fa-sign-out-alt mr-3 text-lg"></i>
+                    <span class="font-medium">Sign Out</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="md:hidden" x-data="{ mobileOpen: false }">
+          <button @click="mobileOpen = !mobileOpen" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          
+          <div x-show="mobileOpen" x-transition class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+            <a href="office.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-briefcase mr-2"></i>Office Management</a>
+            <a href="legislative.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-gavel mr-2"></i>Legislation</a>
+            <a href="oversight.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-search-plus mr-2"></i>Oversight</a>
+            <a href="representation.html" class="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-handshake mr-2"></i>Representation</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Welcome Section -->
+        <section class="relative bg-gradient-to-br from-primary-50 via-primary-100 to-bangsamoro-50 rounded-2xl shadow-lg overflow-hidden mb-8">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-600/5 to-bangsamoro-600/5"></div>
+            <div class="relative px-8 py-12 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-primary-900 mb-4">
+                    Welcome to <em class="font-serif italic text-primary-700 tracking-wide relative">PeerLiamentarian</em>
+                </h2>
+                <h3 class="text-2xl md:text-3xl font-semibold text-primary-800 mb-4">
+                    Your Powerful Parliamentary Companion
+                </h3>
+                <p class="text-xl md:text-2xl text-primary-700 mb-6 max-w-4xl mx-auto">
+                    All-in-One Parliamentary Office Management System (POMS) - Your comprehensive platform for effective parliamentary operations, leveraging the power of AI and built security-first for the Bangsamoro Parliament.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <span class="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full font-medium">
+                        <i class="fas fa-shield-check mr-2"></i> Security First
+                    </span>
+                    <span class="inline-flex items-center px-4 py-2 bg-bangsamoro-100 text-bangsamoro-800 rounded-full font-medium">
+                        <i class="fas fa-robot mr-2"></i> Google Gemini AI
+                    </span>
+                    <span class="inline-flex items-center px-4 py-2 bg-engagement-orange-100 text-engagement-orange-800 rounded-full font-medium">
+                        <i class="fas fa-universal-access mr-2"></i> WCAG 2.1 AA Compliant
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overall System Statistics -->
+        <section class="mb-8">
+            <h3 class="text-2xl font-bold text-neutral-800 mb-6">Today's Overview</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Total Active Tasks</p>
+                            <p class="text-3xl font-bold text-primary-900">147</p>
+                            <p class="text-sm text-bangsamoro-600 mt-1">
+                                <span class="font-medium">+12</span> since yesterday
+                            </p>
+                        </div>
+                        <div class="p-3 bg-primary-100 rounded-xl">
+                            <i class="fas fa-chart-bar text-2xl text-primary-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">Committee Meetings</p>
+                            <p class="text-3xl font-bold text-primary-900">5</p>
+                            <p class="text-sm text-bangsamoro-600 mt-1">This Week</p>
+                        </div>
+                        <div class="p-3 bg-bangsamoro-100 rounded-xl">
+                            <i class="fas fa-users text-2xl text-bangsamoro-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">BTA Bills</p>
+                            <p class="text-3xl font-bold text-primary-900">5</p>
+                            <p class="text-sm text-engagement-orange-600 mt-1">This Month</p>
+                        </div>
+                        <div class="p-3 bg-engagement-orange-100 rounded-xl">
+                            <i class="fas fa-scroll text-2xl text-engagement-orange-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-neutral-600">AI Insights</p>
+                            <p class="text-3xl font-bold text-primary-900">12</p>
+                            <p class="text-sm text-engagement-yellow-600 mt-1">New recommendations</p>
+                        </div>
+                        <div class="p-3 bg-engagement-yellow-100 rounded-xl">
+                            <i class="fas fa-robot text-2xl text-engagement-yellow-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Quick Access -->
+        <section class="mb-8">
+            <h3 class="text-2xl font-bold text-neutral-800 mb-6">Quick Access to Modules</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Office Management Card -->
+                <div class="module-card bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200 flex flex-col">
+                    <div class="text-center flex-1">
+                        <i class="fas fa-briefcase text-5xl mb-4 block text-primary-600"></i>
+                        <h4 class="text-lg font-semibold text-neutral-900 mb-2">Office Management</h4>
+                        <p class="text-sm text-neutral-600 mb-4">Tasks, PPAs, Staff & Team Management</p>
+                        <div class="space-y-2 text-xs mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Active Tasks:</span>
+                                <span class="text-primary-600 font-medium">24</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Office Projects:</span>
+                                <span class="text-primary-600 font-medium">5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Upcoming Activities:</span>
+                                <span class="text-primary-600 font-medium">8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="office.html" class="w-full inline-block bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center">
+                            Open Module
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Legislative Card -->
+                <div class="module-card bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200 flex flex-col">
+                    <div class="text-center flex-1">
+                        <i class="fas fa-gavel text-5xl mb-4 block text-primary-600"></i>
+                        <h4 class="text-lg font-semibold text-neutral-900 mb-2">Legislative Work</h4>
+                        <p class="text-sm text-neutral-600 mb-4">Bills, Committees, Research & Voting</p>
+                        <div class="space-y-2 text-xs mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Bills Authored:</span>
+                                <span class="text-primary-600 font-medium">7</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Committee Meetings:</span>
+                                <span class="text-primary-600 font-medium">5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Legislative Briefs:</span>
+                                <span class="text-primary-600 font-medium">45</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="legislative.html" class="w-full inline-block bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center">
+                            Open Module
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Oversight Card -->
+                <div class="module-card bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200 flex flex-col">
+                    <div class="text-center flex-1">
+                        <i class="fas fa-search-plus text-5xl mb-4 block text-primary-600"></i>
+                        <h4 class="text-lg font-semibold text-neutral-900 mb-2">Oversight & M&E</h4>
+                        <p class="text-sm text-neutral-600 mb-4">MAO Monitoring, Budget & Performance</p>
+                        <div class="space-y-2 text-xs mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">MAOs Monitored:</span>
+                                <span class="text-primary-600 font-medium">25</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Budget Utilization:</span>
+                                <span class="text-primary-600 font-medium">45%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">PPAs Tracked:</span>
+                                <span class="text-primary-600 font-medium">89</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Issues Referred:</span>
+                                <span class="text-primary-600 font-medium">47</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="oversight.html" class="w-full inline-block bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center">
+                            Open Module
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Representation Card -->
+                <div class="module-card bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100 hover:border-primary-200 flex flex-col">
+                    <div class="text-center flex-1">
+                        <i class="fas fa-handshake text-5xl mb-4 block text-primary-600"></i>
+                        <h4 class="text-lg font-semibold text-neutral-900 mb-2">Representation</h4>
+                        <p class="text-sm text-neutral-600 mb-4">Constituencies, Requests & Stakeholders</p>
+                        <div class="space-y-2 text-xs mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Organizations Partnered:</span>
+                                <span class="text-primary-600 font-medium">12</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Beneficiaries Registered:</span>
+                                <span class="text-primary-600 font-medium">2,470</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Active Requests:</span>
+                                <span class="text-primary-600 font-medium">128</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="representation.html" class="w-full inline-block bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center">
+                            Open Module
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity & AI Insights -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-clipboard mr-3 text-2xl text-primary-600"></i>
+                        Recent Activity
+                    </h3>
+                    <button class="text-neutral-500 hover:text-neutral-700 text-sm font-medium">View All</button>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
+                        <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-briefcase text-primary-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900">New instruction created: "Budget Review Directive"</p>
+                            <p class="text-xs text-neutral-500">Office Management • 2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
+                        <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-scroll text-primary-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900">Bill drafted: "Anti-Discrimination Act for BARMM"</p>
+                            <p class="text-xs text-neutral-500">Legislative Work • 4 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
+                        <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-eye text-primary-600 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900">MAO performance report generated</p>
+                            <p class="text-xs text-neutral-500">Oversight & M&E • 6 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights Dashboard -->
+            <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-robot mr-3 text-2xl text-bangsamoro-600"></i>
+                        AI Insights & Recommendations
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-bangsamoro-500 rounded-full"></div>
+                        <span class="text-xs text-bangsamoro-600">AI Active</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-neutral-50 rounded-lg p-4">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-chart-bar text-primary-500 text-lg mr-2"></i>
+                            <p class="text-sm font-medium text-neutral-900">Performance Insight</p>
+                        </div>
+                        <p class="text-xs text-neutral-600">"Your legislative productivity is 23% above the parliamentary average. Consider sharing best practices with colleagues."</p>
+                    </div>
+                    <div class="bg-neutral-50 rounded-lg p-4">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-exclamation-triangle text-engagement-orange-500 text-lg mr-2"></i>
+                            <p class="text-sm font-medium text-neutral-900">Priority Alert</p>
+                        </div>
+                        <p class="text-xs text-neutral-600">"Budget review deadline approaching in 3 days. 12 items still require your attention."</p>
+                    </div>
+                    <button class="w-full bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-robot mr-2"></i> Get More AI Insights
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-primary-100">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                    <i class="fas fa-bolt mr-3 text-2xl text-bangsamoro-600"></i>
+                    System Status & Security
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-bangsamoro-500 rounded-full"></div>
+                    <span class="text-xs text-bangsamoro-600">All Systems Operational</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <i class="fas fa-shield-alt text-3xl mb-2 text-bangsamoro-600"></i>
+                    <p class="text-sm font-medium text-neutral-900">Security Status</p>
+                    <p class="text-xs text-bangsamoro-600">Protected & Monitored</p>
+                    <p class="text-xs text-neutral-500">Last security scan: 15 minutes ago</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-sync text-3xl mb-2 text-primary-600"></i>
+                    <p class="text-sm font-medium text-neutral-900">Data Sync</p>
+                    <p class="text-xs text-primary-600">Real-time Updates</p>
+                    <p class="text-xs text-neutral-500">Last sync: 30 seconds ago</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-chart-line text-3xl mb-2 text-bangsamoro-600"></i>
+                    <p class="text-sm font-medium text-neutral-900">Performance</p>
+                    <p class="text-xs text-bangsamoro-600">Excellent (98.7%)</p>
+                    <p class="text-xs text-neutral-500">Response time: &lt;200ms</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
